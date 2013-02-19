@@ -1,11 +1,13 @@
 package ch.epfl.flamemaker.geometry2d;
-import   java.lang.Math.*;
 
 
 
 public class Point {
+	
 private double x;
 private double y;
+public static Point ORIGIN= new Point(0,0); //point static, fait partie de la classe et non de l'objet ;)
+
 Point(double x, double y){
 	this.x=x;
 	this.y=y;
@@ -31,7 +33,6 @@ public String toString(){
 	return "("+x+", "+y+")";
 }
 
-public static Point ORIGIN= new Point(0,0); //on est pas sur *amnesia* !!!!!IMPORTANT
 
 }
 

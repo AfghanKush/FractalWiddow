@@ -50,7 +50,7 @@ public class Rectangle { //classe du rect
 		 return width/height;
 	 }
 	
-	Rectangle expandToAspectRatio(double aspectRatio){ //compare les rectangle qui on le meme centre *amnesia* 
+	public Rectangle expandToAspectRatio(double aspectRatio){ //compare les rectangle qui on le meme centre *amnesia* 
 		//à finir!!
 	}
 	
