@@ -45,20 +45,23 @@ public class AffineTransformation implements Transformation{
 		return shy;
 	}
 	
-	public Point transformPoint(Point p){
+	public Point transformPoint(Point p){ //amnesia
+		Point z= new Point(p.x()*a+p.y()*b+c, p.x()*d+p.y()*e+f);
+		return z;
 		
 	}
 	
-	public double translationX(){
-		
+	public double translationX(){ //retourne la valeur de la translation horizentale
+		return c;
 	}
 	
-	public double translationY(){
-		
+	public double translationY(){ //retourn la valeur de la translation verticale
+		return f;
 	}
 	
 	public AffineTransformation composeWith(AffineTransformation that){
-		
+		AffineTransformation j= new AffineTransformation(that.a+a,that.b+b,that.c+c,that.d+d,that.e+e,that.f+f);
+		return j;
 	}
 	
 	
