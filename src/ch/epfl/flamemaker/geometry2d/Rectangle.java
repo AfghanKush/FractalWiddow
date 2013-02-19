@@ -41,8 +41,8 @@ public class Rectangle { //classe du rect
 	}
 	
 	public boolean contains(Point p) { //vérifie si le point est a l intérieur du rectangle
-		if( p.x()>=left() && p.x()<right() && p.y()<=top() && p.y()>bottom())
-		{return true;}
+		if( p.x()>=left() && p.x()<right() && p.y()<=top() && p.y()>bottom()) {
+		return true;}
 		else return false;  
 	}
 	
