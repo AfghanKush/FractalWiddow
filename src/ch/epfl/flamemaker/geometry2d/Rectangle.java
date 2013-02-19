@@ -46,12 +46,13 @@ public class Rectangle { //classe du rect
 		else return false;  
 	}
 	
-	public double aspectRatio() { //ratio entre largeur est hauteur, pour comparer la taille des rectangle
+	public double aspectRatio() { //ratio entre largeur et hauteur, pour comparer la taille des rectangle
 		 return width/height;
 	 }
 	
 	public Rectangle expandToAspectRatio(double aspectRatio){ //compare les rectangle qui on le meme centre *amnesia* 
 		//à finir!!
+		
 	}
 	
 	public String toString() {
