@@ -31,7 +31,7 @@ public String toString(){
 	return "("+x+", "+y+")";
 }
 
-public static Point ORIGIN= new Point(0,0);
+public static Point ORIGIN= new Point(0,0); //on est pas sur *amnesia* !!!!!IMPORTANT
 
 }
 

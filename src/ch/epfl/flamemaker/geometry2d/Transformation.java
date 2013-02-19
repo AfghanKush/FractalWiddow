@@ -1,5 +1,7 @@
 package ch.epfl.flamemaker.geometry2d;
 
-public class Transformation {
+public interface Transformation {
+	
+public Point transformPoint(Point p);
 
 }
