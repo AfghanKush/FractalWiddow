@@ -37,14 +37,14 @@ public class IFSAccumulator {
 	 * @return renvoie true si la case en question contient au moins un point de l'ensemble S
 	 */
 	public boolean isHit(int x, int y) {
-		checkCoord(x,y);
-		return isHit[x][y] == true;
+		
+		if ( ! (0 <= x && x < isHit.length && 0 <= y && y < isHit[0].length)) {
+			throw new IndexOutOfBoundsException("Coodonnées à tester invaldes");}
+		
+		else if (0 <= x && x < isHit.length && 0 <= y && y < isHit[0].length) //remplir avec la vérification de S
+			return true; 
+		else return false;
 	}
 	
-	public void checkCoord(int x, int y) {
-		if ( ! (0 <= x && x < isHit.length && 0 <= y && y < isHit[0].length)) {
-			throw new IndexOutOfBoundsException("Coodonnées à tester invaldes");
-		}
-	}
-
 }
+
