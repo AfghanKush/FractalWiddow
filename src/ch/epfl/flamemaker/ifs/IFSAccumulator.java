@@ -41,7 +41,7 @@ public class IFSAccumulator {
 		if ( ! (0 <= x && x < isHit.length && 0 <= y && y < isHit[0].length)) {
 			throw new IndexOutOfBoundsException("Coodonnées à tester invaldes");}
 		
-		else if (0 <= x && x < isHit.length && 0 <= y && y < isHit[0].length) //remplir avec la vérification de S
+		else if (0 <= x && x < isHit.length && 0 <= y && y < isHit[0].length && isHit[x][y] == true ) 
 			return true; 
 		else return false;
 	}
