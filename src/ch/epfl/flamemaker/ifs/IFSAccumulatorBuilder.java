@@ -18,7 +18,7 @@ public class IFSAccumulatorBuilder {
 	}
 	
 	public void hit(Point p) {
-		if(!(p.x()<frame.left()||p.x()>frame.right()||p.y()<frame.bottom()||p.y()>frame.top())){
+		if(frame.contains(p)){ //code plus propre.
 			int x= (int) Math.floor(p.x());//arrondi
 			int y= (int) Math.floor(p.y());//arrondi
 			

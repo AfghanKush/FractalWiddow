@@ -12,9 +12,11 @@ class Randomint { //class random pour générer des int aléatoires // static?
  }    
 
 
-public class IFS implements List<AffineTransformation>{ //implements List<AffineTransformation> {
+public class IFS{ //implements List<AffineTransformation> { il ne faut pas implémenter la list...
 	private List<AffineTransformation> ifsList;
 	Random randomno = new Random();
+	
+	
 	IFS(List<AffineTransformation> transformations) {
 		ifsList = transformations;
 	}
@@ -23,23 +25,27 @@ public class IFS implements List<AffineTransformation>{ //implements List<Affine
 		Point p = Point.ORIGIN;
 		for(int j=0; j<20; j++){
 			int i=Randomint.randomno.nextInt(ifsList.size()); //entier aléatoire en 0 et n-1 // dernière valeure non-incluse // le bon n??
-			//p = F[i](p)  ----> traduire en java
+			//p = F[i](p)  ----> traduire en java, dans la suite
+			p= ifsList.get(i).transformPoint(p);
 		}
 		
 		//nombre d intération = H(en nombre de case) x W (en nombre de case) x Density
 		int m = height*width*density;
 		
 		
-		IFSAccumulator S;
+		IFSAccumulatorBuilder S=new IFSAccumulatorBuilder(frame,width,height); //ensemble intermediaire pour remplir S
 		
 		
 		for(int j=0; j<m; j++){
 			int i=Randomint.randomno.nextInt(ifsList.size()); //entier aléatoire en 0 et n-1 // dernière valeure non-incluse // le bon n??
 			//p = F[i](p)  ----> traduire en java
+			p= ifsList.get(i).transformPoint(p);
 			//S=S+p; ---> traduire en java
+			S.hit(p); //on remplie la case touchée
+			
 		}
 		
-		return S;
+		return S.build(); //on build l IFSAccumulateur;
 	}
 
 }
