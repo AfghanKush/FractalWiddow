@@ -3,7 +3,6 @@ package ch.epfl.flamemaker.ifs;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
@@ -54,15 +53,15 @@ public class TestEt2 {
 		
 		OutputStream output = new FileOutputStream(fichier);
 		PrintStream m=new PrintStream(output);
-		System.out.println("P1");
-		System.out.println(frame.width()+" "+frame.height()); //largeur puis hateur
+		m.println("P1");
+		m.println(haut+" "+larg); //largeur puis hateur
 		int x;
 		for(int i=0; i<haut; i++){
 			for(int k=0; k<larg; k++){
 				if(R.isHit(i,k))x=1; else x=0;
-				System.out.print(x);
+				m.print(x);
 			}
-			System.out.println("");
+			m.println("");
 		}
 			
 		m.close();

@@ -7,9 +7,7 @@ import java.util.Random;
 
 
 
-class Randomint { //class random pour générer des int aléatoires // static?
-	static Random randomno = new Random();
- }    
+   
 
 
 public class IFS{ //implements List<AffineTransformation> { il ne faut pas implémenter la list...
@@ -21,10 +19,13 @@ public class IFS{ //implements List<AffineTransformation> { il ne faut pas implé
 		ifsList = transformations;
 	}
 	
-	public IFSAccumulator compute(Rectangle frame, int width, int height, int density) {
+	public IFSAccumulator compute(Rectangle frame, int width, int height, int density) 
+	{
 		Point p = Point.ORIGIN;
-		for(int j=0; j<20; j++){
-			int i=Randomint.randomno.nextInt(ifsList.size()); //entier aléatoire en 0 et n-1 // dernière valeure non-incluse // le bon n??
+		
+		for(int j=0; j<20; j++)
+		{
+			int i=randomno.nextInt(ifsList.size()); //entier aléatoire en 0 et n-1 // dernière valeure non-incluse // le bon n??
 			//p = F[i](p)  ----> traduire en java, dans la suite
 			p= ifsList.get(i).transformPoint(p);
 		}
@@ -37,7 +38,7 @@ public class IFS{ //implements List<AffineTransformation> { il ne faut pas implé
 		
 		
 		for(int j=0; j<m; j++){
-			int i=Randomint.randomno.nextInt(ifsList.size()); //entier aléatoire en 0 et n-1 // dernière valeure non-incluse // le bon n??
+			int i=randomno.nextInt(ifsList.size()); //entier aléatoire en 0 et n-1 // dernière valeure non-incluse // le bon n??
 			//p = F[i](p)  ----> traduire en java
 			p= ifsList.get(i).transformPoint(p);
 			//S=S+p; ---> traduire en java
