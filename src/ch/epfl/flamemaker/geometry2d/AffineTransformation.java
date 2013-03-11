@@ -18,7 +18,7 @@ public class AffineTransformation implements Transformation{ //Classe des transf
 	 * @param e 5ème élément variable de la matrice homogène
 	 * @param f 6ème élément variable de la matrice homogène
 	 */
-	AffineTransformation(double a, double b, double c, double d, double e, double f){
+	public AffineTransformation(double a, double b, double c, double d, double e, double f){
 		this.a=a;
 		this.b=b;
 		this.c=c;

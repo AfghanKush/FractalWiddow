@@ -12,7 +12,7 @@ public class Rectangle { //classe du rect
 	 * @param width largeur du rectangle
 	 * @param height hateur du rectangle
 	 */
-	Rectangle(Point center, double width, double height) { //constructeur du rectangle
+	public Rectangle(Point center, double width, double height) { //constructeur du rectangle
 		this.center = center;
 		
 		if(height<=0 || width<=0){

@@ -17,7 +17,7 @@ public class IFS{ //implements List<AffineTransformation> { il ne faut pas implé
 	Random randomno = new Random();
 	
 	
-	IFS(List<AffineTransformation> transformations) {
+	public IFS(List<AffineTransformation> transformations) {
 		ifsList = transformations;
 	}
 	
