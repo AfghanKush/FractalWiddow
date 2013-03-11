@@ -114,7 +114,7 @@ public class AffineTransformation implements Transformation{ //Classe des transf
 	 * @return renvoie la transformation affine résultante
 	 */
 	public AffineTransformation composeWith(AffineTransformation that){
-		AffineTransformation j= new AffineTransformation(that.a+a,that.b+b,that.c+c,that.d+d,that.e+e,that.f+f);
+		AffineTransformation j= new AffineTransformation(that.a*this.a+that.b*this.d, that.a*this.b+that.b*this.e, this.c*that.a+that.b*this.f+that.c, this.a*that.d+that.e*this.d, that.d*this.b+that.e*this.e, that.d*this.c+that.e*this.f+that.f);
 		return j;
 	}
 	

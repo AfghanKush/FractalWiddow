@@ -18,18 +18,22 @@ public class IFSAccumulatorBuilder {
 		double diffY= -frame.bottom();
 
 		this.g= AffineTransformation.newTranslation(diffX, diffY);
-		this.g.composeWith(AffineTransformation.newScaling(ratiow, ratioh));
+		this.g=this.g.composeWith(AffineTransformation.newScaling(ratiow, ratioh));
 		
 		tableauIntermediaire = new boolean[width][height];
 	}
 	
 	public void hit(Point p) {
-		g.transformPoint(p);
+		
 		if(frame.contains(p)){ //code plus propre.
-			int x= (int) Math.floor(p.x());//arrondi
-			int y= (int) Math.floor(p.y());//arrondi
+			Point j=g.transformPoint(p);
+			int x= (int) Math.floor(j.x());//arrondi
+			int y= (int) Math.floor(j.y());//arrondi
+			
 			
 			tableauIntermediaire[x][y] = true;
+			
+			
 		}
 	}
 	
