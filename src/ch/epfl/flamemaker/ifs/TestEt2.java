@@ -17,7 +17,8 @@ public class TestEt2 {
 	 * @param args
 	 * @throws FileNotFoundException 
 	 */
-	public static void main(String[] args) throws FileNotFoundException {
+	public static void main(String[] args) throws FileNotFoundException 
+	{
 		
 		
 		//dimension de l'image + densité
@@ -25,11 +26,10 @@ public class TestEt2 {
 		int haut=400;
 		int dens=150;
 		
-		
-		//triangle de Sierpinski, création de la liste des trasformation linéaires.
-		
 		ArrayList<AffineTransformation> affList = new ArrayList<AffineTransformation>(); 
 		
+		//triangle de Sierpinski, création de la liste des trasformation linéaires.
+
 		/*
 		affList.add( new AffineTransformation(0.5,0,0,0,0.5,0));
 		affList.add(new AffineTransformation(0.5,0,0.5,0,0.5,0));
@@ -69,8 +69,10 @@ public class TestEt2 {
 		int x;
 		
 
-		for(int i=haut-1; i>=0; i--){
-			for(int k=0; k<larg; k++){
+		for(int i=haut-1; i>=0; i--)
+		{
+			for(int k=0; k<larg; k++)
+			{
 				if(R.isHit(k,i))x=1; else x=0;
 				m.print(x);
 			}
@@ -81,4 +83,4 @@ public class TestEt2 {
 		
 	}
 
-}
+}   //le resultat est bon!
