@@ -29,8 +29,8 @@ public class FlameTransformation implements Transformation,Cloneable
 		double y = 0;
 		for(int j=0; j<5; j++)
 		{
-			x= variationWeight[j]*Variation.ALL_VARIATIONS.get(j).transformPoint(affineTransformation.transformPoint(p)).x();
-			y= variationWeight[j]*Variation.ALL_VARIATIONS.get(j).transformPoint(affineTransformation.transformPoint(p)).y();
+			x+= variationWeight[j]*Variation.ALL_VARIATIONS.get(j).transformPoint(affineTransformation.transformPoint(p)).x();
+			y+= variationWeight[j]*Variation.ALL_VARIATIONS.get(j).transformPoint(affineTransformation.transformPoint(p)).y();
 		}
 		
 		return new Point(x,y);

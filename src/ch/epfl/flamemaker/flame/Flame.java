@@ -13,7 +13,7 @@ import java.util.Random;
  */
 public class Flame
 { 
-	private ArrayList<FlameTransformation> flameList;
+	private List<FlameTransformation> flameList;
 	Random randomno = new Random();
 	static int NOMBRE_MAX_DE_POINTS_PAR_CASE=100;
 	
@@ -23,10 +23,8 @@ public class Flame
 	 */
 	public Flame(ArrayList<FlameTransformation> transformations) 
 	{
-		for (int i=0; i<flameList.size(); i++) 
-		{
-			flameList.set(i, transformations.get(i));
-		}
+		flameList = transformations;
+
 	}
 	
 	/**

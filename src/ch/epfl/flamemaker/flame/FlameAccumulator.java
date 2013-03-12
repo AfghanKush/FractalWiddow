@@ -41,13 +41,16 @@ public class FlameAccumulator {
 	 * @return renvoie true si la case en question contient au moins un point de l'ensemble S
 	 */
 	public double intensity(int x, int y) { //a vérifier
-		
 		if ( ! (0 <= x && x < hitCount.length && 0 <= y && y < hitCount[0].length)) {
 			throw new IndexOutOfBoundsException("Coodonnées à tester invaldes");}
 		
-		else if (0 <= x && x < hitCount.length && 0 <= y && y < hitCount[0].length && hitCount[x][y] > 0 ) 
-			return Math.log(hitCount[x][y]+1)/Math.log(Flame.NOMBRE_MAX_DE_POINTS_PAR_CASE+1); 
-		else return 0;
+		else 
+		{
+			//return Math.log(hitCount[x][y]+1)/Math.log(FlameAccumulator.Builder.maximum+1); 
+			//return Math.log(hitCount[x][y]+1)/Math.log(Flame.NOMBRE_MAX_DE_POINTS_PAR_CASE+1);
+			return hitCount[x][y];
+		}
+		
 	}
 	
 	static class Builder
@@ -55,6 +58,7 @@ public class FlameAccumulator {
 		private Rectangle frame;
 		private int[][] tableauIntermediaire;
 		AffineTransformation g;
+		static int maximum=0;
 		
 		Builder(Rectangle frame, int width, int height)
 		{
@@ -80,6 +84,7 @@ public class FlameAccumulator {
 				int x= (int) Math.floor(j.x());//arrondi
 				int y= (int) Math.floor(j.y());//arrondi
 				tableauIntermediaire[x][y]++;
+				if(maximum<tableauIntermediaire[x][y])maximum=tableauIntermediaire[x][y];
 			}
 		}
 		/**

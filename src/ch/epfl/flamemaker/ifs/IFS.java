@@ -12,7 +12,7 @@ import java.util.Random;
  *
  */
 public class IFS{ //implements List<AffineTransformation> { il ne faut pas implémenter la list...
-	private ArrayList<AffineTransformation> ifsList;
+	private List<AffineTransformation> ifsList;	
 	Random randomno = new Random();
 	
 	/**
@@ -21,10 +21,7 @@ public class IFS{ //implements List<AffineTransformation> { il ne faut pas implé
 	 */
 	public IFS(List<AffineTransformation> transformations) 
 	{
-		for (int i=0; i<ifsList.size(); i++) 
-		{
-			ifsList.set(i, transformations.get(i));
-		}
+		ifsList = transformations;
 	}
 	
 	/**
