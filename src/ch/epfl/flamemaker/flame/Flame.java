@@ -14,6 +14,7 @@ import java.util.Random;
 public class Flame{ 
 	private List<FlameTransformation> flameList;
 	Random randomno = new Random();
+	static int NOMBRE_MAX_DE_POINTS_PAR_CASE=100;
 	
 	/**
 	 * fait une copie profonde de la list de transformation Flame
