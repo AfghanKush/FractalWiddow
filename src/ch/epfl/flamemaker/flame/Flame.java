@@ -11,8 +11,9 @@ import java.util.Random;
  * @author younes
  *
  */
-public class Flame{ 
-	private List<FlameTransformation> flameList;
+public class Flame
+{ 
+	private ArrayList<FlameTransformation> flameList;
 	Random randomno = new Random();
 	static int NOMBRE_MAX_DE_POINTS_PAR_CASE=100;
 	
@@ -20,8 +21,12 @@ public class Flame{
 	 * fait une copie profonde de la list de transformation Flame
 	 * @param transformations
 	 */
-	public Flame(List<FlameTransformation> transformations) {
-		flameList = transformations;
+	public Flame(ArrayList<FlameTransformation> transformations) 
+	{
+		for (int i=0; i<flameList.size(); i++) 
+		{
+			flameList.set(i, transformations.get(i));
+		}
 	}
 	
 	/**
@@ -38,16 +43,16 @@ public class Flame{
 		
 		for(int j=0; j<20; j++)
 		{
-			int i=randomno.nextInt(ifsList.size()); //entier aléatoire en 0 et n-1 // dernière valeure non-incluse
-			p= ifsList.get(i).transformPoint(p);
+			int i=randomno.nextInt(flameList.size()); //entier aléatoire en 0 et n-1 // dernière valeure non-incluse
+			p= flameList.get(i).transformPoint(p);
 		}
 		int m = height*width*density;	//nombre d intération = H(en nombre de case) x W (en nombre de case) x Density
-		IFSAccumulatorBuilder S=new IFSAccumulatorBuilder(frame,width,height); 
+		FlameAccumulator.Builder S=new FlameAccumulator.Builder(frame,width,height); 
 		for(int j=0; j<m; j++)
 		{
-			int i=randomno.nextInt(ifsList.size()); //entier aléatoire en 0 et n-1 // dernière valeure non-incluse
+			int i=randomno.nextInt(flameList.size()); //entier aléatoire en 0 et n-1 // dernière valeure non-incluse
 			//p = F[i](p)  ----> traduire en java
-			p= ifsList.get(i).transformPoint(p);
+			p= flameList.get(i).transformPoint(p);
 			//S=S+p; ---> traduire en java
 			S.hit(p); //on remplie la case touchée	
 		}

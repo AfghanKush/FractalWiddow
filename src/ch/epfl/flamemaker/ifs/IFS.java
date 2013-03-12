@@ -19,9 +19,12 @@ public class IFS{ //implements List<AffineTransformation> { il ne faut pas implé
 	 * fait une copie profonde de la list de transformation affines
 	 * @param transformations
 	 */
-	public IFS(List<AffineTransformation> transformations) {
-		for (int i=0; i<ifsList.size(); i++) {
+	public IFS(List<AffineTransformation> transformations) 
+	{
+		for (int i=0; i<ifsList.size(); i++) 
+		{
 			ifsList.set(i, transformations.get(i));
+		}
 	}
 	
 	/**
