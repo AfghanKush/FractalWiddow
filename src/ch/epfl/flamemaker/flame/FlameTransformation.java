@@ -11,7 +11,7 @@ public class FlameTransformation implements Transformation,Cloneable
 	
 	FlameTransformation(AffineTransformation affineTransformation, double[] variationWeight)
 	{
-		if(variationWeight.length != this.variationWeight.length) //bon test?
+		if(variationWeight.length !=6) //bon test?
 		{
 			throw new IllegalArgumentException("tableau de poids n'a pas la bonne taille");
 		}
@@ -19,12 +19,21 @@ public class FlameTransformation implements Transformation,Cloneable
 		{
 			this.variationWeight=variationWeight.clone();
 			this.affineTransformation=affineTransformation;
+			
 		}
 	}
 	
 	public Point transformPoint(Point p)
 	{
-		//--
+		double x = 0;
+		double y = 0;
+		for(int j=0; j<5; j++)
+		{
+			x= variationWeight[j]*Variation.ALL_VARIATIONS.get(j).transformPoint(affineTransformation.transformPoint(p)).x();
+			y= variationWeight[j]*Variation.ALL_VARIATIONS.get(j).transformPoint(affineTransformation.transformPoint(p)).y();
+		}
+		
+		return new Point(x,y);
 	}
 	
 }
