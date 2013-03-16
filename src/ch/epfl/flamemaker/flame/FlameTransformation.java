@@ -9,6 +9,11 @@ public class FlameTransformation implements Transformation,Cloneable
 	private AffineTransformation affineTransformation;
 	private double[] variationWeight;
 	
+	/**
+	 * Constucteur de transformation de type Flame
+	 * @param affineTransformation transformatoin affine nécessaire à la transformation Flame
+	 * @param variationWeight tableau de poids associ
+	 */
 	FlameTransformation(AffineTransformation affineTransformation, double[] variationWeight)
 	{
 		if(variationWeight.length !=6) //bon test?
@@ -23,6 +28,9 @@ public class FlameTransformation implements Transformation,Cloneable
 		}
 	}
 	
+	/**
+	 * Réalise la transformation du point selon la formule 
+	 */
 	public Point transformPoint(Point p)
 	{
 		double x = 0;

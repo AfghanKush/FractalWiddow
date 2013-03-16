@@ -9,7 +9,12 @@ public abstract class Variation implements Transformation
 {
     private final String name;
     private final int index;
-
+    
+    /**
+     * 
+     * @param index 
+     * @param name
+     */
     private Variation(int index, String name) 
     { 
     	this.name=name;
