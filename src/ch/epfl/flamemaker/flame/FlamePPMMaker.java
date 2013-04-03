@@ -7,11 +7,13 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
 
+import ch.epfl.flamemaker.color.Color;
+import ch.epfl.flamemaker.color.InterpolatedPalette;
 import ch.epfl.flamemaker.geometry2d.AffineTransformation;
 import ch.epfl.flamemaker.geometry2d.Point;
 import ch.epfl.flamemaker.geometry2d.Rectangle;
 
-public class FlamePGMMaker {
+public class FlamePPMMaker {
 
 	/**
 	 * @param args
@@ -54,8 +56,8 @@ public class FlamePGMMaker {
 		
 		//--------------------------------------------------------------------------------->>>>>>>>>>>turbulence
 		//dimension de l'image + densité
-		int larg=500;
-		int haut=500;
+		int larg=50;
+		int haut=50;
 		int dens=50;
 		
 		//création du point de centre
@@ -82,6 +84,12 @@ public class FlamePGMMaker {
 		flameList.add(new FlameTransformation(affList.get(1),b));
 		flameList.add(new FlameTransformation(affList.get(2),c));
 		
+		//création de la palette de couleurs.
+		ArrayList<Color> colorList= new ArrayList<Color>();
+		colorList.add(Color.RED);
+		colorList.add(Color.GREEN);
+		colorList.add(Color.BLUE);
+		InterpolatedPalette InterpPalette= new InterpolatedPalette(colorList);
 		
 		//--------------------------------------------------------------------------------->turbulences ---> lafin*/
 		
@@ -94,25 +102,33 @@ public class FlamePGMMaker {
 		R=flame.compute(frame, larg, haut, dens);
 		
 		
-		java.io.File fichier = new java.io.File("Shark_fin.PGM"); 
+		java.io.File fichier = new java.io.File("Flame_PPM.PPM"); 
 
 		fichier.setWritable(true);
 		
 		OutputStream output = new FileOutputStream(fichier);
 		PrintStream m=new PrintStream(output);
-		m.println("P2");
+		m.println("P3");
 		m.println(larg+" "+haut); //largeur puis hateur
-		//m.println(Flame.NOMBRE_MAX_DE_POINTS_PAR_CASE); //luminosité max variante du prof
-		m.println(Flame.NOMBRE_MAX_DE_POINTS_PAR_CASE); //luminosité max variante younes
+		m.println(Flame.NOMBRE_MAX_DE_POINTS_PAR_CASE); // en gros 100
 		
 
 		for(int i=haut-1; i>=0; i--)
 		{
 			for(int k=0; k<larg; k++)
 			{
-				double g=R.intensity(k,i)*Flame.NOMBRE_MAX_DE_POINTS_PAR_CASE; //multiplier par nbdecasesblabla si on change de variante
-				int j= (int)g;
-				m.print(j);
+				
+				
+				m.print((int)(InterpPalette.colorForIndex(R.intensity(k, i)).red())); 
+				
+				m.print(" ");
+				
+				m.print((int)(InterpPalette.colorForIndex(R.intensity(k, i)).green()));
+				
+				m.print(" ");
+				
+				m.print((int)(InterpPalette.colorForIndex(R.intensity(k, i)).blue()));
+				
 				m.print(" ");
 				
 			}

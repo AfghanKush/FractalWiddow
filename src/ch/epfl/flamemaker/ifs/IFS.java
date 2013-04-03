@@ -8,10 +8,11 @@ import java.util.Random;
 
 /**
  * class IFS qui calcule l'agorithme du chaos.
- * @author younes
+ * 
  *
  */
-public class IFS{ //implements List<AffineTransformation> { il ne faut pas implémenter la list...
+public class IFS
+{ 
 	private List<AffineTransformation> ifsList;	
 	Random randomno = new Random();
 	
@@ -21,7 +22,11 @@ public class IFS{ //implements List<AffineTransformation> { il ne faut pas implé
 	 */
 	public IFS(List<AffineTransformation> transformations) 
 	{
-		ifsList = transformations;
+		ifsList= new ArrayList<AffineTransformation>();
+		for(AffineTransformation gh: transformations){
+			ifsList.add(gh);
+		}
+		
 	}
 	
 	/**

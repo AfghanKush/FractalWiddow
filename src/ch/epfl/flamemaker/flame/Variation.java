@@ -50,16 +50,16 @@ public abstract class Variation implements Transformation
         {
         	public Point transformPoint(Point p)
         	{
-        		double x=p.x()/p.r()*p.r();
-        		double y=p.y()/p.r()*p.r();
+        		double x=p.x()/Math.pow(p.r(), 2);
+        		double y=p.y()/Math.pow(p.r(), 2);
         		return new Point(x,y);
         	}
         },new Variation(3,"Swirl")
         {
         	public Point transformPoint(Point p)
         	{
-        		double x=p.x()*Math.sin(p.r()*p.r())-p.y()*Math.cos(p.r()*p.r());
-        		double y=p.x()*Math.cos(p.r()*p.r())+p.x()*Math.cos(p.r()*p.r());
+        		double x=p.x()*Math.sin(Math.pow(p.r(), 2))-p.y()*Math.cos(Math.pow(p.r(), 2));
+        		double y=p.x()*Math.cos(Math.pow(p.r(), 2))+p.y()*Math.sin(Math.pow(p.r(), 2));
         		return new Point(x,y);
         	}
         },new Variation(4,"Horseshoe")
@@ -67,15 +67,15 @@ public abstract class Variation implements Transformation
         	public Point transformPoint(Point p)
         	{
         		double x=(p.x()-p.y())*(p.x()+p.y())/p.r();
-        		double y=p.x()*2*p.y()/p.r();
+        		double y=(p.x()*2*p.y())/p.r();
         		return new Point(x,y);
         	}
         },new Variation(5,"Bubble")
         {
         	public Point transformPoint(Point p)
         	{
-        		double x=4*p.x()/(p.r()*p.r()+4);
-        		double y=4*p.y()/(p.r()*p.r()+4);
+        		double x=(4*p.x())/((Math.pow(p.r(), 2))+4);
+        		double y=(4*p.y())/((Math.pow(p.r(), 2))+4);
         		return new Point(x,y);
         	}
         }

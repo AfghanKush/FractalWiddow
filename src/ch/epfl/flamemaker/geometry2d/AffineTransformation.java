@@ -1,6 +1,7 @@
 package ch.epfl.flamemaker.geometry2d;
 
-public class AffineTransformation implements Transformation{ //Classe des transformations affines
+public class AffineTransformation implements Transformation //Classe des transformations affines
+{
 	double a; // élément variable de la matrice homogène
 	double b; // élément variable de la matrice homogène
 	double c; // élément variable de la matrice homogène

@@ -35,7 +35,7 @@ public class FlameTransformation implements Transformation,Cloneable
 	{
 		double x = 0;
 		double y = 0;
-		for(int j=0; j<5; j++)
+		for(int j=0; j<6; j++)
 		{
 			x+= variationWeight[j]*Variation.ALL_VARIATIONS.get(j).transformPoint(affineTransformation.transformPoint(p)).x();
 			y+= variationWeight[j]*Variation.ALL_VARIATIONS.get(j).transformPoint(affineTransformation.transformPoint(p)).y();
@@ -43,5 +43,56 @@ public class FlameTransformation implements Transformation,Cloneable
 		
 		return new Point(x,y);
 	}
+	
+	static class Builder
+	{
+		FlameTransformation flametrans;
+		
+		/**
+		 * crée le batisseur de la classe FlameTransformation
+		 * @param flametrans une FlameTransformation
+		 */
+		Builder(FlameTransformation flametrans)
+		{
+			this.flametrans=flametrans;
+		}
+		
+		/**
+		 * renvoie l'affine transformation de la Flametransformation correspondante.
+		 * @return l'affine transformation de la Flametransformation correspondante.
+		 */
+		AffineTransformation Affineget()
+		{
+			return flametrans.affineTransformation;
+		}
+		
+		/**
+		 * remplace la trasformationaffine de la Flametransformation correspondante.
+		 * @param affinetransform nouvelles valeurs de l'affinetransformation.
+		 */
+		void affineIs(AffineTransformation affinetransform)
+		{
+			this.flametrans.affineTransformation=affinetransform;
+		}
+		/**
+		 * retourne le poids d'index donné
+		 * @param index du poid
+		 * @return le poid
+		 */
+		double getVarWeight(int index)
+		{
+			return flametrans.variationWeight[index];
+		}
+		/**
+		 * donne une nouvelle valeure au poids a l index donné
+		 * @param newVarWeight nouveau poid
+		 * @param index index de l emplacement du poid
+		 */
+		void setVarWeight(double newVarWeight, int index)
+		{
+			flametrans.variationWeight[index]=newVarWeight;
+		}
+	}
+
 	
 }
