@@ -1,6 +1,5 @@
 package ch.epfl.flamemaker.flame;
 
-import java.util.Arrays;
 
 import ch.epfl.flamemaker.color.Color;
 import ch.epfl.flamemaker.color.Palette;
@@ -20,8 +19,18 @@ public class FlameAccumulator {
 	 * @param colorIndexSum tableau de double contenant la moyenne des index de couleurs de chaque case
 	 */
 	FlameAccumulator(int[][] hitCount, double[][] colorIndexSum) {
-		this.hitCount = Arrays.copyOf(hitCount, hitCount.length); //copie en profondeur??!!
-		this.colorIndexSum=Arrays.copyOf(colorIndexSum, colorIndexSum.length); //copie en profondeur??!!
+		this.hitCount = new int[hitCount.length][hitCount[0].length];
+		for(int i=0; i<hitCount.length; i++) {
+			for(int j=0; j<hitCount[0].length; j++) {
+				this.hitCount[i][j] = hitCount[i][j];
+			}
+		}
+		this.colorIndexSum = new double[colorIndexSum.length][colorIndexSum[0].length];
+		for(int i=0; i<colorIndexSum.length; i++) {
+			for(int j=0; j<colorIndexSum[0].length; j++) {
+				this.colorIndexSum[i][j] = colorIndexSum[i][j];
+			}
+		}
 		
 	}
 	

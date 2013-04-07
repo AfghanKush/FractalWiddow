@@ -22,7 +22,10 @@ public class FlameTransformation implements Transformation,Cloneable
 		}
 		else
 		{
-			this.variationWeight=variationWeight.clone();
+		    this.variationWeight = new double[variationWeight.length];
+			for(int i=0; i<variationWeight.length; i++) {
+				this.variationWeight[i] = variationWeight[i];
+			}
 			this.affineTransformation=affineTransformation;
 			
 		}

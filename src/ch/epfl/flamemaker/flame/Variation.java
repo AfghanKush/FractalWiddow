@@ -11,7 +11,7 @@ public abstract class Variation implements Transformation
     private final int index;
     
     /**
-     * 
+     * Constructeur
      * @param index 
      * @param name
      */

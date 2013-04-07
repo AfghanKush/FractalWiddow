@@ -24,8 +24,8 @@ public class Flame
 	public Flame(List<FlameTransformation> flameList2) 
 	{
 		flameList= new ArrayList<FlameTransformation>();
-		for(FlameTransformation gh: flameList2){
-			flameList.add(gh);
+		for(int i=0; i<flameList2.size(); i++){
+			flameList.add(flameList2.get(i));
 		}
 
 	}

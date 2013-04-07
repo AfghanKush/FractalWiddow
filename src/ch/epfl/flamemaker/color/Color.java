@@ -39,7 +39,7 @@ public class Color
 		}
 		
 		/**
-		 * 
+		 * renvoie la composante verte de lacouleur
 		 * @return composante verte de la couleur
 		 */
 		public double green()
@@ -48,7 +48,7 @@ public class Color
 		}
 		
 		/**
-		 * 
+		 * renvoie la composante bleue de la couleur
 		 * @return composante bleue de la couleur
 		 */
 		public double blue()
@@ -71,7 +71,7 @@ public class Color
 		}
 		/**
 		 * Encode la couleur dans un entier par décalage de bits
-		 * @return la culeur encodée en un entier
+		 * @return la couleur encodée en un entier
 		 */
 		public int asPackedRGB()
 		{
