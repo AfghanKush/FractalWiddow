@@ -11,7 +11,6 @@ import ch.epfl.flamemaker.geometry2d.Rectangle;
 public class FlameAccumulator {
 	private int[][] hitCount; // Tableau de int des cases contenant au moins un point de l'ensemble S
 	private double[][] colorIndexSum;
-	
 	static int maximum=0; //le nombre maximum de points par case
 
 	
@@ -86,7 +85,7 @@ public class FlameAccumulator {
 	{
 		if ( ! (0 <= x && x < hitCount.length && 0 <= y && y < hitCount[0].length)) 
 		{
-			throw new IndexOutOfBoundsException("Coodonnées à tester invaldes");
+			throw new IndexOutOfBoundsException("Coodonnées à tester invaldes pour intensity");
 		}
 		
 		double g=(double)((Math.log(hitCount[x][y]+1))/(Math.log(FlameAccumulator.maximum+1))); 
@@ -100,10 +99,16 @@ public class FlameAccumulator {
 		AffineTransformation g;
 		private double[][] colorIndexInterm;
 		
+		/**
+		 * Builder de Flameaccumulator, construit le tableau représentant l image et le tableau de couleurs(index).
+		 * @param frame carré representant la taille de l image après transformation.
+		 * @param width largeur de base de l image
+		 * @param height hauteur de base de l image
+		 */
 		Builder(Rectangle frame, int width, int height)
 		{
 			if(!(width >= 0 && height >= 0))
-				throw new IllegalArgumentException("Hauteur ou largeur invalide");
+				throw new IllegalArgumentException("Hauteur ou largeur invalide dans builder de flameaccumulator");
 			this.frame = frame;
 			double ratiow= width/frame.width();
 			double ratioh= height/frame.height();
@@ -117,7 +122,11 @@ public class FlameAccumulator {
 			colorIndexInterm= new double[width][height];
 		}
 		
-		public void hit(Point p) 
+		/**
+		 * construit le tableau a deux dimension des points (qui représente l image) en incrémentant la case touché
+		 * @param p représente le point a incrémenter dans le tableau
+		 */
+		public void hit(Point p, double colorI) 
 		{	
 			if(frame.contains(p)) //code plus propre.
 			{ 
@@ -127,7 +136,16 @@ public class FlameAccumulator {
 				tableauIntermediaire[x][y]++;
 				if(maximum<tableauIntermediaire[x][y]){maximum=tableauIntermediaire[x][y];} //calcule le nombre de points max par case
 				
-				colorIndexInterm[x][y]= tableauIntermediaire[x][y]/maximum;		
+				//colorIndexInterm[x][y]= tableauIntermediaire[x][y]/maximum;	
+				if(tableauIntermediaire[x][y] != 0) //réécrire
+				{
+					this.colorIndexInterm[x][y] = (1d/(tableauIntermediaire[x][y]+1)) * ((this.colorIndexInterm[x][y] *  tableauIntermediaire[x][y]) + colorI); 
+				}
+				else
+				{
+					this.colorIndexInterm[x][y] = colorI;
+				}//réécrire
+				
 			}
 		}
 		/**

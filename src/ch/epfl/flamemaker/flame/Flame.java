@@ -9,13 +9,12 @@ import java.util.Random;
 
 /**
  * class Flame qui calcule l'agorithme du chaos.
- * @author younes
  *
  */
 public class Flame
 { 
 	private List<FlameTransformation> flameList;
-	Random randomno = new Random();
+	Random randomno = new Random(2013); //2013 pour le rendu
 	static int NOMBRE_MAX_DE_POINTS_PAR_CASE=100;
 	
 	/**
@@ -30,9 +29,17 @@ public class Flame
 		}
 
 	}
+	//reecrire cette méthode
+	public static  double getColorIndexForTransformation (int i) {
+		if(i < 2) {
+			return i;
+		} else {
+			return (1+(2*(i-Math.pow(2, Math.ceil(Math.log(i)/Math.log(2))-1) -1))) /(Math.pow(2, Math.ceil(Math.log(i)/Math.log(2))));
+		}
+	}//réécrire cette méthode.
 	
 	/**
-	 * calcule, grace a l algorithme du chaos l'ensemble des points qui définit la fractale.
+	 * calcule, grace a l algorithme du chaos l'ensemble des points qui définit la fractale. (calcule aussi l'index de la couleur de chaque point)
 	 * @param frame cadre dans le quel on affiche la fractale
 	 * @param width largeur 
 	 * @param height hauteur
@@ -42,20 +49,44 @@ public class Flame
 	public FlameAccumulator compute(Rectangle frame, int width, int height, int density) 
 	{
 		Point p = Point.ORIGIN;
+		double colorI = 0;
+		int m = height*width*density;	//nombre d intération = H(en nombre de case) x W (en nombre de case) x Density
+		FlameAccumulator.Builder S=new FlameAccumulator.Builder(frame,width,height); 
+		
+		
+		//reecrire cette méthode
+		double[] colorsIndexesForTransformations = new double[this.flameList.size()]; // ce tableau va contenir les indexs associés à chaque transormation de façon à ne pas les recalculer à chaque fois
+		colorsIndexesForTransformations[0] = 0d;
+		colorsIndexesForTransformations[1] = 1d;
+		for(int i = 2 ; i < this.flameList.size() ; i++)
+		{
+			colorsIndexesForTransformations[i] = getColorIndexForTransformation(i);
+		} //réécrire cette méthode.
+		
+		
 		
 		for(int j=0; j<20; j++)
 		{
 			int i=randomno.nextInt(flameList.size()); //entier aléatoire en 0 et n-1 // dernière valeure non-incluse
 			p= flameList.get(i).transformPoint(p);
+			
+			int transformationId = randomno.nextInt(this.flameList.size()); // on récupère la transformation à effectuer
+			p = this.flameList.get(transformationId).transformPoint(p); //on transforme le point par avec cette transofrmation
+			colorI = (1d/2)*(colorI + colorsIndexesForTransformations[transformationId]);
 		}
-		int m = height*width*density;	//nombre d intération = H(en nombre de case) x W (en nombre de case) x Density
-		FlameAccumulator.Builder S=new FlameAccumulator.Builder(frame,width,height); 
+		
 		for(int j=0; j<m; j++)
 		{
 			int i=randomno.nextInt(flameList.size()); //entier aléatoire en 0 et n-1 // dernière valeure non-incluse
 			p= flameList.get(i).transformPoint(p);
-			S.hit(p); //on remplie la case touchée	
+			S.hit(p,colorI); //on remplie la case touchée
+			
+			int transformationId = randomno.nextInt(this.flameList.size()); // on récupère la transformation à effectuer
+			p = this.flameList.get(transformationId).transformPoint(p); //on transforme le point par avec cette transofrmation
+			colorI= (1d/2)*(colorI + colorsIndexesForTransformations[transformationId]);
+		
 		}
+		
 		return S.build(); //on build l IFSAccumulateur;
 	}
 	

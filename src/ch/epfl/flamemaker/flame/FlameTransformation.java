@@ -6,8 +6,8 @@ import ch.epfl.flamemaker.geometry2d.Transformation;
 
 public class FlameTransformation implements Transformation,Cloneable
 {
-	private AffineTransformation affineTransformation;
-	private double[] variationWeight;
+	private  AffineTransformation affineTransformation;
+	private  double[] variationWeight;
 	
 	/**
 	 * Constucteur de transformation de type Flame
@@ -47,7 +47,7 @@ public class FlameTransformation implements Transformation,Cloneable
 	static class Builder
 	{
 		FlameTransformation flametrans;
-		
+		double [] variationWeight;
 		/**
 		 * crée le batisseur de la classe FlameTransformation
 		 * @param flametrans une FlameTransformation
@@ -55,6 +55,12 @@ public class FlameTransformation implements Transformation,Cloneable
 		Builder(FlameTransformation flametrans)
 		{
 			this.flametrans=flametrans;
+			
+			variationWeight = new double[6]; //réécrire
+			for(int i = 0 ; i < 6 ; i++)
+			{
+				variationWeight[i] = flametrans.variationWeight[i];
+			}
 		}
 		
 		/**
@@ -91,6 +97,11 @@ public class FlameTransformation implements Transformation,Cloneable
 		void setVarWeight(double newVarWeight, int index)
 		{
 			flametrans.variationWeight[index]=newVarWeight;
+		}
+		
+		FlameTransformation build()
+		{
+			return new FlameTransformation(flametrans.affineTransformation,this.variationWeight);
 		}
 	}
 

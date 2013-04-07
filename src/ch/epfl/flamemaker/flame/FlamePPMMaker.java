@@ -118,17 +118,12 @@ public class FlamePPMMaker {
 			for(int k=0; k<larg; k++)
 			{
 				
-				
-				m.print((int)(InterpPalette.colorForIndex(R.intensity(k, i)).red())); 
-				
+				Color fractColor = R.color(InterpPalette, Color.BLACK, k,i );
+				m.print((int)fractColor.red());
 				m.print(" ");
-				
-				m.print((int)(InterpPalette.colorForIndex(R.intensity(k, i)).green()));
-				
+				m.print((int)fractColor.green());
 				m.print(" ");
-				
-				m.print((int)(InterpPalette.colorForIndex(R.intensity(k, i)).blue()));
-				
+				m.print((int)fractColor.blue());
 				m.print(" ");
 				
 			}
