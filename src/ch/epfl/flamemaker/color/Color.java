@@ -21,7 +21,7 @@ public class Color
 		public Color(double r, double g, double b)
 		{
 			if((r>1)||(g>1)||(b>1)||(r<0)||(g<0)||(b<0))
-				throw new IllegalArgumentException("Coodonnées à tester invaldes");
+				throw new IllegalArgumentException("Coodonnées à tester invaldes dans Color");
 			else
 			{
 				this.r=r;
@@ -65,9 +65,9 @@ public class Color
 		public Color mixWith(Color that, double proportion)
 		{
 			if(proportion<0||proportion>1)
-				throw new IllegalArgumentException("la proportion de la couleur est invalide");
+				throw new IllegalArgumentException("la proportion de la couleur est invalide dans Color.mixWith");
 			else
-				return new Color(r*proportion+that.red()*(1-proportion),g*proportion+that.green()*(1-proportion),b*proportion+that.blue()*(1-proportion));
+				return new Color(r*(1-proportion)+that.red()*proportion,g*(1-proportion)+that.green()*proportion,b*(1-proportion)+that.blue()*proportion);
 		}
 		/**
 		 * Encode la couleur dans un entier par décalage de bits
@@ -91,7 +91,7 @@ public class Color
 		 * @param max maximum du entier encodé
 		 * @return v-gamma composante encodé
 		 */
-		int sRGBEncode(double v, int max)
+		public static int sRGBEncode(double v, int max)
 		{
 			if(v<=0.0031308)
 			{
@@ -102,7 +102,7 @@ public class Color
 				v=1.055*Math.pow(v, 1/2.4)-0.055;
 			}
 			
-			return (int)(v*max);
+			return (int)Math.floor(v*max);
 				
 		}
 }

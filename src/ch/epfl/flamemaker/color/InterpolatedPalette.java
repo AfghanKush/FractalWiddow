@@ -1,16 +1,13 @@
 package ch.epfl.flamemaker.color;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
+
 
 
 public class InterpolatedPalette implements Palette
 {
 	
-	private List<Color> colorList;
-	Random randomno = new Random();
-	
+	private List<Color> colorList;	
 	/**
 	 * constructeur de la classe "interpolatedPalette"
 	 * Il doit y avoir au moins 2 couleur dans la palette sinon il est impossible de former une palette.
@@ -18,12 +15,11 @@ public class InterpolatedPalette implements Palette
 	 */
 	public InterpolatedPalette(List<Color> colorList2)
 	{
-		if (colorList2.size() <= 2)
+		if (colorList2.size() < 2)
 		{
 			throw new IllegalArgumentException("il n'y a pas assez de couleurs pour faire une palette");
 		}
-		
-		this.colorList = new ArrayList<Color>(colorList2);
+		colorList= new ArrayList<Color>(colorList2);
 	}
 	
 	
@@ -40,7 +36,7 @@ public class InterpolatedPalette implements Palette
 		
 		else
 		{
-			double etape = 1d /((colorList.size())-1); //d?
+			double etape = 1.0 /((colorList.size())-1); 
 			
 			Color couleur1 = null;
 			Color couleur2 = null;

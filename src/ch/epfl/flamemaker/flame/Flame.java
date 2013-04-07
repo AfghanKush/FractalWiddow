@@ -29,12 +29,22 @@ public class Flame
 		}
 
 	}
-	//reecrire cette méthode
-	public static  double getColorIndexForTransformation (int i) {
-		if(i < 2) {
+	/**
+	 * Trouve le bon index de couleur pour la transformation choisie.(i)
+	 * @param i index de la transformation
+	 * @return
+	 */
+	public static  double indexColTransformation(int i) {
+		if(i >= 2) 
+		{
+			double x=1+(2*(i-Math.pow(2, Math.ceil(Math.log(i)/Math.log(2))-1) -1));
+			double y=Math.pow(2, Math.ceil(Math.log(i)/Math.log(2)));
+			
+			return (double)x/y;	
+		} 
+		else 
+		{
 			return i;
-		} else {
-			return (1+(2*(i-Math.pow(2, Math.ceil(Math.log(i)/Math.log(2))-1) -1))) /(Math.pow(2, Math.ceil(Math.log(i)/Math.log(2))));
 		}
 	}//réécrire cette méthode.
 	
@@ -49,19 +59,18 @@ public class Flame
 	public FlameAccumulator compute(Rectangle frame, int width, int height, int density) 
 	{
 		Point p = Point.ORIGIN;
-		double colorI = 0;
+		double colorI = 0.0;
 		int m = height*width*density;	//nombre d intération = H(en nombre de case) x W (en nombre de case) x Density
 		FlameAccumulator.Builder S=new FlameAccumulator.Builder(frame,width,height); 
 		
 		
-		//reecrire cette méthode
-		double[] colorsIndexesForTransformations = new double[this.flameList.size()]; // ce tableau va contenir les indexs associés à chaque transormation de façon à ne pas les recalculer à chaque fois
-		colorsIndexesForTransformations[0] = 0d;
-		colorsIndexesForTransformations[1] = 1d;
+		double[] TrfIndex = new double[this.flameList.size()];
+		TrfIndex[0] = 0.0;
+		TrfIndex[1] = 1.0;
 		for(int i = 2 ; i < this.flameList.size() ; i++)
 		{
-			colorsIndexesForTransformations[i] = getColorIndexForTransformation(i);
-		} //réécrire cette méthode.
+			TrfIndex[i] = indexColTransformation(i);
+		} 
 		
 		
 		
@@ -70,21 +79,17 @@ public class Flame
 			int i=randomno.nextInt(flameList.size()); //entier aléatoire en 0 et n-1 // dernière valeure non-incluse
 			p= flameList.get(i).transformPoint(p);
 			
-			int transformationId = randomno.nextInt(this.flameList.size()); // on récupère la transformation à effectuer
-			p = this.flameList.get(transformationId).transformPoint(p); //on transforme le point par avec cette transofrmation
-			colorI = (1d/2)*(colorI + colorsIndexesForTransformations[transformationId]);
+			
+			colorI = (1/2)*(colorI + TrfIndex[i]);
 		}
 		
 		for(int j=0; j<m; j++)
 		{
 			int i=randomno.nextInt(flameList.size()); //entier aléatoire en 0 et n-1 // dernière valeure non-incluse
 			p= flameList.get(i).transformPoint(p);
-			S.hit(p,colorI); //on remplie la case touchée
+			colorI = (1/2)*(colorI + TrfIndex[i]);
 			
-			int transformationId = randomno.nextInt(this.flameList.size()); // on récupère la transformation à effectuer
-			p = this.flameList.get(transformationId).transformPoint(p); //on transforme le point par avec cette transofrmation
-			colorI= (1d/2)*(colorI + colorsIndexesForTransformations[transformationId]);
-		
+			S.hit(p,colorI); //on remplie la case touchée
 		}
 		
 		return S.build(); //on build l IFSAccumulateur;

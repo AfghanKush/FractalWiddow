@@ -16,16 +16,17 @@ public class FlameTransformation implements Transformation,Cloneable
 	 */
 	FlameTransformation(AffineTransformation affineTransformation, double[] variationWeight)
 	{
-		if(variationWeight.length !=6) //bon test?
+		if(variationWeight.length !=6) 
 		{
 			throw new IllegalArgumentException("tableau de poids n'a pas la bonne taille");
 		}
 		else
 		{
-		    this.variationWeight = new double[variationWeight.length];
+		    /*this.variationWeight = new double[variationWeight.length];
 			for(int i=0; i<variationWeight.length; i++) {
 				this.variationWeight[i] = variationWeight[i];
-			}
+			}*/
+			this.variationWeight=variationWeight;
 			this.affineTransformation=affineTransformation;
 			
 		}

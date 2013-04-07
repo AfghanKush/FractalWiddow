@@ -50,18 +50,8 @@ public class FlameAccumulator {
 		}
 		
 		else
-		{
-			//calcule la couleur du point au coordonnée x-y
-			int r;
-			int g;
-			int b;
-			
-			r= (int)(intensity(x,y)*palette.colorForIndex(colorIndexSum[x][y]).red() + background.red()*(1-intensity(x,y)));
-			g= (int)(intensity(x,y)*palette.colorForIndex(colorIndexSum[x][y]).green() + background.green()*(1-intensity(x,y)));
-			b= (int)(intensity(x,y)*palette.colorForIndex(colorIndexSum[x][y]).blue() + background.blue()*(1-intensity(x,y)));
-			
-			return new Color(r,g,b);
-
+		{	
+			return background.mixWith(palette.colorForIndex(this.colorIndexSum[x][y]), this.intensity(x, y));
 		}
 	}
 	
@@ -95,10 +85,9 @@ public class FlameAccumulator {
 		if ( ! (0 <= x && x < hitCount.length && 0 <= y && y < hitCount[0].length)) 
 		{
 			throw new IndexOutOfBoundsException("Coodonnées à tester invaldes pour intensity");
-		}
+		}	
 		
-		double g=(double)((Math.log(hitCount[x][y]+1))/(Math.log(FlameAccumulator.maximum+1))); 
-		return g;
+		return (double)((Math.log(hitCount[x][y]+1))/(Math.log(FlameAccumulator.maximum+1)));
 	}
 	
 	static class Builder
@@ -145,15 +134,16 @@ public class FlameAccumulator {
 				tableauIntermediaire[x][y]++;
 				if(maximum<tableauIntermediaire[x][y]){maximum=tableauIntermediaire[x][y];} //calcule le nombre de points max par case
 				
-				//colorIndexInterm[x][y]= tableauIntermediaire[x][y]/maximum;	
-				if(tableauIntermediaire[x][y] != 0) //réécrire
+				if(tableauIntermediaire[x][y] == 0) 
 				{
-					this.colorIndexInterm[x][y] = (1d/(tableauIntermediaire[x][y]+1)) * ((this.colorIndexInterm[x][y] *  tableauIntermediaire[x][y]) + colorI); 
+					this.colorIndexInterm[x][y] = colorI;
+
 				}
 				else
 				{
-					this.colorIndexInterm[x][y] = colorI;
-				}//réécrire
+					this.colorIndexInterm[x][y] = (1.0/(tableauIntermediaire[x][y]+1)) * ((this.colorIndexInterm[x][y] *  tableauIntermediaire[x][y]) + colorI); 
+
+				}
 				
 			}
 		}

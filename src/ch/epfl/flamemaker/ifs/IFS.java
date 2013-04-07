@@ -8,6 +8,7 @@ import java.util.Random;
 
 /**
  * class IFS qui calcule l'agorithme du chaos.
+ * 
  *
  */
 public class IFS

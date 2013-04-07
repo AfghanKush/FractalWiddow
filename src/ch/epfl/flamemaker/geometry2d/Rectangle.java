@@ -25,7 +25,7 @@ public class Rectangle { //classe du rect
 	}
 	
 	/**
-	 * Return le point le plus a guche du rectangle
+	 * 
 	 * @return renvoie le point du rectangle le plus a gauche
 	 */
 	public double left() { //renvoie le point du rectangle le plus a gauche
@@ -33,7 +33,7 @@ public class Rectangle { //classe du rect
 	}
 	
 	/**
-	 * Retourne le point le plus a droite du rectangle
+	 * 
 	 * @return renvoie le point du rectangle le plus a droite
 	 */
 	public double right() { //renvoie le point du rectangle le plus a droite
@@ -41,7 +41,7 @@ public class Rectangle { //classe du rect
 	}
 	
 	/**
-	 * Retourne le point le plus bas du rectangle
+	 * 
 	 * @return renvoie le point du rectangle le plus bas
 	 */
 	public double bottom() { //renvoie le point du rectangle le plus bas
@@ -49,7 +49,7 @@ public class Rectangle { //classe du rect
 	}
 	
 	/**
-	 * Retoune le point le plus haut du rectangle
+	 * 
 	 * @return renvoie le point du rectangle le plus haut
 	 */
 	public double top() { //renvoie le point du rectangle le plus haut
@@ -57,7 +57,7 @@ public class Rectangle { //classe du rect
 	}
 	
 	/**
-	 * Retourne la valeur de la largeur du rectangle
+	 * 
 	 * @return retourne la largeur du rectangle
 	 */
 	public double width() { //renvoie la largeur du rectangle
@@ -65,7 +65,7 @@ public class Rectangle { //classe du rect
 	}
 
 	/**
-	 * Retourne la valeur de la hauteur du rectangle
+	 * 
 	 * @return hauteur du rectangle
 	 */
 	public double height() { //renvoie la hateur du rectangle
@@ -74,7 +74,7 @@ public class Rectangle { //classe du rect
 	
 	
 	/**
-	 * Retourne le point correspondant au centre du rectangle
+	 * 
 	 * @return point du centre du rectangle
 	 */
 	public Point center() { //renvoie le point du centre du rectangle
@@ -93,7 +93,7 @@ public class Rectangle { //classe du rect
 	}
 	
 	/**
-	 * Retourne le ratio correspondant a : largeur / hauteur
+	 * 
 	 * @return le ratio entre largeur et hauteur
 	 */
 	public double aspectRatio() { //ratio entre largeur et hauteur, pour comparer la taille des rectangle
@@ -119,7 +119,7 @@ public class Rectangle { //classe du rect
 	}
 	
 	/**
-	 * retourne les coordonnées du rectangle (représentation textuelle du rectangle)
+	 * retourne les coordonnées du rectangle
 	 */
 	public String toString() {
 		return "(" + center.toString() + "," + width + "," + height + ")";

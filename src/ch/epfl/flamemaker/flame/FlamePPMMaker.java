@@ -118,19 +118,17 @@ public class FlamePPMMaker {
 			for(int k=0; k<larg; k++)
 			{
 				
-				Color fractColor = R.color(InterpPalette, Color.BLACK, k,i );
-				m.print((int)fractColor.red());
+				Color fractColor = R.color(InterpPalette, Color.BLACK, k,i);
+				m.print(Color.sRGBEncode(fractColor.red(), 100));
 				m.print(" ");
-				m.print((int)fractColor.green());
+				m.print(Color.sRGBEncode(fractColor.green(), 100));
 				m.print(" ");
-				m.print((int)fractColor.blue());
+				m.print(Color.sRGBEncode(fractColor.blue(), 100));
 				m.print(" ");
 				
 			}
 			m.println("");
 		}
-		System.out.println(FlameAccumulator.maximum);
-
 
 		
 		m.close();
