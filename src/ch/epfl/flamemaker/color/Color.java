@@ -93,16 +93,17 @@ public class Color
 		 */
 		public static int sRGBEncode(double v, int max)
 		{
+			double Vs;
 			if(v<=0.0031308)
 			{
-				v*=12.92;
+				Vs=v*12.92;
 			} 
 			else
 			{
-				v=1.055*Math.pow(v, 1/2.4)-0.055;
+				Vs=(1.055*Math.pow(v, 1/2.4)-0.055);
 			}
 			
-			return (int)Math.floor(v*max);
+			return (int)Math.floor(Vs*max);
 				
 		}
 }
