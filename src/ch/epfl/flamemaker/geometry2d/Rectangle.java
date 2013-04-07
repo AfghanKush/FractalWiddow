@@ -25,7 +25,7 @@ public class Rectangle { //classe du rect
 	}
 	
 	/**
-	 * 
+	 * Return le point le plus a guche du rectangle
 	 * @return renvoie le point du rectangle le plus a gauche
 	 */
 	public double left() { //renvoie le point du rectangle le plus a gauche
@@ -33,7 +33,7 @@ public class Rectangle { //classe du rect
 	}
 	
 	/**
-	 * 
+	 * Retourne le point le plus a droite du rectangle
 	 * @return renvoie le point du rectangle le plus a droite
 	 */
 	public double right() { //renvoie le point du rectangle le plus a droite
@@ -41,7 +41,7 @@ public class Rectangle { //classe du rect
 	}
 	
 	/**
-	 * 
+	 * Retourne le point le plus bas du rectangle
 	 * @return renvoie le point du rectangle le plus bas
 	 */
 	public double bottom() { //renvoie le point du rectangle le plus bas
@@ -49,7 +49,7 @@ public class Rectangle { //classe du rect
 	}
 	
 	/**
-	 * 
+	 * Retoune le point le plus haut du rectangle
 	 * @return renvoie le point du rectangle le plus haut
 	 */
 	public double top() { //renvoie le point du rectangle le plus haut
