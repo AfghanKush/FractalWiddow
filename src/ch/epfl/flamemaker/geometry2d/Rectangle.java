@@ -16,7 +16,7 @@ public class Rectangle { //classe du rect
 		this.center = center;
 		
 		if(height<=0 || width<=0){
-			throw new IllegalArgumentException("bite");//changer le message amnesia
+			throw new IllegalArgumentException("height ou width trop petits.");//changer le message amnesia
 		}
 		this.height = height;
 		this.width = width;
@@ -107,15 +107,15 @@ public class Rectangle { //classe du rect
 	 */
 	public Rectangle expandToAspectRatio(double aspectRatio){ //
 		
-		if(aspectRatio<=0){throw new IllegalArgumentException("mew");}
-		
-		if(aspectRatio>aspectRatio()){
-			return new Rectangle(this.center,aspectRatio*this.height , this.height);
+		if(aspectRatio<=0){throw new IllegalArgumentException("une erreur dans la methode 'expandtoaspectration' de Rectangle");}
+	
+		else if(aspectRatio<=aspectRatio()){
+			return new Rectangle(center, width, width/aspectRatio);
+			
 		}
-		else if(aspectRatio < aspectRatio()){
-			return new Rectangle(this.center, this.width, this.width/aspectRatio);
+
+		else{return new Rectangle(center, height*aspectRatio, height);
 		}
-		else return new Rectangle(this.center, this.width, this.height);
 	}
 	
 	/**

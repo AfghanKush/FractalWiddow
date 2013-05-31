@@ -14,7 +14,7 @@ public class FlameTransformation implements Transformation,Cloneable
 	 * @param affineTransformation transformatoin affine nécessaire à la transformation Flame
 	 * @param variationWeight tableau de poids associ
 	 */
-	FlameTransformation(AffineTransformation affineTransformation, double[] variationWeight)
+	public FlameTransformation(AffineTransformation affineTransformation, double[] variationWeight)
 	{
 		if(variationWeight.length !=6) 
 		{
@@ -48,17 +48,17 @@ public class FlameTransformation implements Transformation,Cloneable
 		return new Point(x,y);
 	}
 	
-	static class Builder
+	public static class Builder
 	{
-		FlameTransformation flametrans;
-		double [] variationWeight;
+		private AffineTransformation affineTrans;
+		private double [] variationWeight;
 		/**
 		 * crée le batisseur de la classe FlameTransformation
 		 * @param flametrans une FlameTransformation
 		 */
-		Builder(FlameTransformation flametrans)
+		public Builder(FlameTransformation flametrans)
 		{
-			this.flametrans=flametrans;
+			this.affineTrans=flametrans.affineTransformation;
 			
 			variationWeight = new double[6]; //réécrire
 			for(int i = 0 ; i < 6 ; i++)
@@ -71,41 +71,40 @@ public class FlameTransformation implements Transformation,Cloneable
 		 * renvoie l'affine transformation de la Flametransformation correspondante.
 		 * @return l'affine transformation de la Flametransformation correspondante.
 		 */
-		AffineTransformation Affineget()
+		public AffineTransformation Affineget()
 		{
-			return flametrans.affineTransformation;
+			return this.affineTrans;
 		}
 		
 		/**
 		 * remplace la trasformationaffine de la Flametransformation correspondante.
 		 * @param affinetransform nouvelles valeurs de l'affinetransformation.
 		 */
-		void affineIs(AffineTransformation affinetransform)
+		public void affineIs(AffineTransformation affinetransform)
 		{
-			this.flametrans.affineTransformation=affinetransform;
+			this.affineTrans=affinetransform;
 		}
 		/**
 		 * retourne le poids d'index donné
 		 * @param index du poid
 		 * @return le poid
 		 */
-		double getVarWeight(int index)
+		public double[] getVarWeight()
 		{
-			return flametrans.variationWeight[index];
+			return this.variationWeight;
 		}
 		/**
 		 * donne une nouvelle valeure au poids a l index donné
 		 * @param newVarWeight nouveau poid
 		 * @param index index de l emplacement du poid
 		 */
-		void setVarWeight(double newVarWeight, int index)
-		{
-			flametrans.variationWeight[index]=newVarWeight;
+		public void setVarWeight(Variation variation, double weight){
+			variationWeight[variation.index()] = weight;
 		}
 		
-		FlameTransformation build()
+		public FlameTransformation build()
 		{
-			return new FlameTransformation(flametrans.affineTransformation,this.variationWeight);
+			return new FlameTransformation(this.affineTrans,this.variationWeight);
 		}
 	}
 

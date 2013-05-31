@@ -1,22 +1,26 @@
 package ch.epfl.flamemaker.color;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 public class RandomPalette implements Palette{
 	
-	private List<Color> colorList=null;
 	Random randomno = new Random();
+	private InterpolatedPalette palette;
 	
 	/**
 	 * constructeur de la "RandomPalette", crée une palette avec n couleurs aléatoires
 	 * @param n nombre de couleur aléatoire
 	 */
-	RandomPalette(int n)
+	public RandomPalette(int n)
 	{
-		for(int i=0; i<n;i++)
-		{
-			colorList.add(new Color(randomno.nextInt(255),randomno.nextInt(255),randomno.nextInt(255)));
-		}	
+		Random rand = new Random();
+		List<Color> color = new ArrayList<Color>();
+		
+		for(int i=0;i<n;i++){
+			color.add(new Color(rand.nextInt(255)/255.0,rand.nextInt(255)/255.0, rand.nextInt(255)/255.0));
+		}
+		this.palette=new InterpolatedPalette(color);
 	}
 	
 	/**
@@ -33,8 +37,7 @@ public class RandomPalette implements Palette{
 		
 		else
 		{
-			InterpolatedPalette j=new InterpolatedPalette(colorList);
-			return j.colorForIndex(index);
+			return palette.colorForIndex(index);
 		}
 	}
 }

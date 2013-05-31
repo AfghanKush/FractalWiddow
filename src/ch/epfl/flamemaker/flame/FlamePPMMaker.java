@@ -56,9 +56,9 @@ public class FlamePPMMaker {
 		
 		//--------------------------------------------------------------------------------->>>>>>>>>>>turbulence
 		//dimension de l'image + densité
-		int larg=50;
-		int haut=50;
-		int dens=50;
+		int larg=500;
+		int haut=500;
+		int dens=5;
 		
 		//création du point de centre
 		Point p1= new Point(0.1,0.1);
@@ -75,9 +75,9 @@ public class FlamePPMMaker {
 		affList.add(new AffineTransformation(0.0842641,-0.314478,-0.1,0.314478,0.0842641,0.3));
 		
 		//création des tableau de pondération
-		double[] a={0.5,0,0,0.4,0,0};
-		double[] b={1,0,0.1,0,0,0};
-		double[] c={1,0,0,0,0,0};
+				double[] a={0.5,0,0,0.4,0,0};
+				double[] b={1,0,0.1,0,0,0};
+				double[] c={1,0,0,0,0,0};
 		
 		//création des Flametransformations...
 		flameList.add(new FlameTransformation(affList.get(0),a));
@@ -86,10 +86,16 @@ public class FlamePPMMaker {
 		
 		//création de la palette de couleurs.
 		ArrayList<Color> colorList= new ArrayList<Color>();
-		colorList.add(Color.RED);
+		
+		
 		colorList.add(Color.GREEN);
+		colorList.add(Color.BLACK);
+		
 		colorList.add(Color.BLUE);
+		colorList.add(Color.WHITE);
 		InterpolatedPalette InterpPalette= new InterpolatedPalette(colorList);
+		
+		//RandomPalette RandPalette= new RandomPalette(10);
 		
 		//--------------------------------------------------------------------------------->turbulences ---> lafin*/
 		

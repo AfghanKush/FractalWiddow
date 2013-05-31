@@ -10,7 +10,7 @@ import ch.epfl.flamemaker.geometry2d.Rectangle;
 public class FlameAccumulator {
 	private int[][] hitCount; // Tableau de int des cases contenant au moins un point de l'ensemble S
 	private double[][] colorIndexSum;
-	static int maximum=0; //le nombre maximum de points par case
+	private final int maximum; //le nombre maximum de points par case
 
 	
 	/**
@@ -19,12 +19,17 @@ public class FlameAccumulator {
 	 * @param colorIndexSum tableau de double contenant la moyenne des index de couleurs de chaque case
 	 */
 	FlameAccumulator(int[][] hitCount, double[][] colorIndexSum) {
+		int max = 0;
+		
 		this.hitCount = new int[hitCount.length][hitCount[0].length];
 		for(int i=0; i<hitCount.length; i++) {
 			for(int j=0; j<hitCount[0].length; j++) {
 				this.hitCount[i][j] = hitCount[i][j];
+				if(max<hitCount[i][j])max=hitCount[i][j];
 			}
 		}
+		maximum=max;
+		
 		this.colorIndexSum = new double[colorIndexSum.length][colorIndexSum[0].length];
 		for(int i=0; i<colorIndexSum.length; i++) {
 			for(int j=0; j<colorIndexSum[0].length; j++) {
@@ -33,7 +38,6 @@ public class FlameAccumulator {
 		}
 		
 	}
-	
 	/**
 	 * calcule la couleur du point au coordonnée x,y
 	 * @param palette
@@ -46,10 +50,11 @@ public class FlameAccumulator {
 	{
 		if ( ! (0 <= x && x < hitCount.length && 0 <= y && y < hitCount[0].length)) 
 		{
-			throw new IndexOutOfBoundsException("Coodonnées à tester invaldes (fonction color)");
+			throw new IndexOutOfBoundsException("Coodonnées à tester invaldes (fonction color), la dernière est x: "+hitCount.length+ " y: "+hitCount[0].length);
 		}
 		
-		else
+		else if(hitCount[x][y]==0)
+			return background;
 		{	
 			return background.mixWith(palette.colorForIndex(this.colorIndexSum[x][y]), this.intensity(x, y));
 		}
@@ -87,7 +92,7 @@ public class FlameAccumulator {
 			throw new IndexOutOfBoundsException("Coodonnées à tester invaldes pour intensity");
 		}	
 		
-		return (double)((Math.log(hitCount[x][y]+1))/(Math.log(FlameAccumulator.maximum+1)));
+		return ((Math.log(hitCount[x][y]+1))/(Math.log(maximum+1)));
 	}
 	
 	static class Builder
@@ -124,6 +129,29 @@ public class FlameAccumulator {
 		 * construit le tableau a deux dimension des points (qui représente l image) en incrémentant la case touché
 		 * @param p représente le point a incrémenter dans le tableau
 		 */
+		
+		public void AddBuilder(FlameAccumulator.Builder g,int t){
+			
+			
+			
+			//System.out.println("on rajoute le flamebuildre");
+			for(int i=0; i<g.tableauIntermediaire.length;i++){
+				for(int j=0; j<g.tableauIntermediaire[0].length;j++){
+					tableauIntermediaire[i][j]+=g.tableauIntermediaire[i][j];
+				
+					for(int x=0; x<g.tableauIntermediaire[i][j];x++)
+					{
+						this.colorIndexInterm[i][j] = (1.0/(tableauIntermediaire[i][j]+1)) * ((this.colorIndexInterm[i][j] *  tableauIntermediaire[i][j]) + g.colorIndexInterm[i][j]); 
+
+					}
+				}
+				
+			}
+				
+		}
+		
+		
+		
 		public void hit(Point p, double colorI) 
 		{	
 			if(frame.contains(p)) //code plus propre.
@@ -132,19 +160,17 @@ public class FlameAccumulator {
 				int x= (int) Math.floor(j.x());//arrondi
 				int y= (int) Math.floor(j.y());//arrondi
 				tableauIntermediaire[x][y]++;
-				if(maximum<tableauIntermediaire[x][y]){maximum=tableauIntermediaire[x][y];} //calcule le nombre de points max par case
 				
-				if(tableauIntermediaire[x][y] == 0) 
+				if(tableauIntermediaire[x][y] == 0) //inutile, de toute facon on incrémente.
 				{
 					this.colorIndexInterm[x][y] = colorI;
 
-				}
+				}//jusqu'à là c'est inutile
 				else
 				{
 					this.colorIndexInterm[x][y] = (1.0/(tableauIntermediaire[x][y]+1)) * ((this.colorIndexInterm[x][y] *  tableauIntermediaire[x][y]) + colorI); 
 
 				}
-				
 			}
 		}
 		/**

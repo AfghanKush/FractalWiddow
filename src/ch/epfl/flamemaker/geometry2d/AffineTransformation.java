@@ -28,6 +28,31 @@ public class AffineTransformation implements Transformation //Classe des transfo
 		this.f=f;
 	}
 	
+	
+	public double[] getMatrix(){
+		double[] tab={a,b,c,d,e,f};
+		return tab;
+	}
+	
+	public void setMatrixA(double a){
+		this.a=a;
+	}
+	public void setMatrixB(double a){
+		this.b=a;
+	}
+	public void setMatrixC(double a){
+		this.c=a;
+	}
+	public void setMatrixD(double a){
+		this.d=a;
+	}
+	public void setMatrixE(double a){
+		this.e=a;
+	}
+	public void setMatrixF(double a){
+		this.f=a;
+	}
+	
 	/**
 	 *  transformation affine représentant une translation de dx unités parallélement à l'abscisse 
 	 *  et dy unités parallélement à l'ordonnée

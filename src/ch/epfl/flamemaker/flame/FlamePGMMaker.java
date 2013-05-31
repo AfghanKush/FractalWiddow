@@ -56,7 +56,7 @@ public class FlamePGMMaker {
 		//dimension de l'image + densité
 		int larg=500;
 		int haut=500;
-		int dens=50;
+		int dens=5;
 		
 		//création du point de centre
 		Point p1= new Point(0.1,0.1);
@@ -118,7 +118,6 @@ public class FlamePGMMaker {
 			}
 			m.println("");
 		}
-		System.out.println(FlameAccumulator.maximum);
 
 
 		

@@ -59,15 +59,16 @@ public class Color
 		/**
 		 * mélange toutes les composantes de deux couleurs différentes.
 		 * @param that deuxième couleur a mélanger avec l'actuelle.
-		 * @param proportion proportion du mélange
+		 * @param proportion proportion du that
 		 * @return la nouvelle couleur (produit du mélange)
 		 */
 		public Color mixWith(Color that, double proportion)
 		{
-			if(proportion<0||proportion>1)
+			if(proportion<=0||proportion>1){
+				System.out.println("swag");
 				throw new IllegalArgumentException("la proportion de la couleur est invalide dans Color.mixWith");
-			else
-				return new Color(r*(1-proportion)+that.red()*proportion,g*(1-proportion)+that.green()*proportion,b*(1-proportion)+that.blue()*proportion);
+			}
+			return new Color(red()*(1-proportion)+that.red()*proportion, green()*(1-proportion)+that.green()*proportion, blue()*(1-proportion)+that.blue()*proportion);
 		}
 		/**
 		 * Encode la couleur dans un entier par décalage de bits
@@ -81,7 +82,7 @@ public class Color
 			
 			r1= r1<<16;
 			g1=g1<<8;
-			return r1&g1&b1;
+			return r1|g1|b1;
 			
 		}
 		

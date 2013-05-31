@@ -3,8 +3,12 @@ package ch.epfl.flamemaker.flame;
 import java.util.*;
 
 import ch.epfl.flamemaker.geometry2d.*;
+import ch.epfl.flamemaker.gui.FlamebuilderPreview;
+
 
 import java.util.Random;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 
 /**
@@ -13,9 +17,18 @@ import java.util.Random;
  */
 public class Flame
 { 
-	private List<FlameTransformation> flameList;
+	static double colorI;
+	private final List<FlameTransformation> flameList;
 	Random randomno = new Random(2013); //2013 pour le rendu
 	static int NOMBRE_MAX_DE_POINTS_PAR_CASE=100;
+	
+	//-------------------------------------Bonus
+	
+	int threadsnumber=8;
+	private FlameAccumulator.Builder[] S1=new FlameAccumulator.Builder[threadsnumber];
+	final  ExecutorService schedulSwag =Executors.newScheduledThreadPool(threadsnumber); //20threads max^^
+	
+	
 	
 	/**
 	 * fait une copie profonde de la list de transformation Flame
@@ -48,6 +61,7 @@ public class Flame
 		}
 	}//réécrire cette méthode.
 	
+	
 	/**
 	 * calcule, grace a l algorithme du chaos l'ensemble des points qui définit la fractale. (calcule aussi l'index de la couleur de chaque point)
 	 * @param frame cadre dans le quel on affiche la fractale
@@ -60,15 +74,19 @@ public class Flame
 	{
 		Point p = Point.ORIGIN;
 		double colorI = 0.0;
-		int m = height*width*density;	//nombre d intération = H(en nombre de case) x W (en nombre de case) x Density
+		//final int m = height*width*density;	//nombre d intération = H(en nombre de case) x W (en nombre de case) x Density
 		FlameAccumulator.Builder S=new FlameAccumulator.Builder(frame,width,height); 
 		
 		
 		double[] TrfIndex = new double[this.flameList.size()];
-		TrfIndex[0] = 0.0;
-		TrfIndex[1] = 1.0;
-		for(int i = 2 ; i < this.flameList.size() ; i++)
+		for(int i = 0 ; i < this.flameList.size() ; i++)
 		{
+			if(i==0)
+				TrfIndex[0] = 0.0;
+			
+			else if(i==1)
+				TrfIndex[1]=1.0;
+			
 			TrfIndex[i] = indexColTransformation(i);
 		} 
 		
@@ -78,47 +96,112 @@ public class Flame
 		{
 			int i=randomno.nextInt(flameList.size()); //entier aléatoire en 0 et n-1 // dernière valeure non-incluse
 			p= flameList.get(i).transformPoint(p);
-			
-			
-			colorI = (1/2)*(colorI + TrfIndex[i]);
+
+			colorI = (1.0/2.0)*(colorI + TrfIndex[i]);
 		}
 		
-		for(int j=0; j<m; j++)
+		
+		ArrayList<Thread> myThreads = new ArrayList<Thread>();
+		
+		for(int j=0; j<threadsnumber; j++) //8thread différent vont calculer l'algorithme du chaos.
 		{
-			int i=randomno.nextInt(flameList.size()); //entier aléatoire en 0 et n-1 // dernière valeure non-incluse
-			p= flameList.get(i).transformPoint(p);
-			colorI = (1/2)*(colorI + TrfIndex[i]);
-			
-			S.hit(p,colorI); //on remplie la case touchée
+			final calculator calculFrac = new calculator(height,width,density, frame, TrfIndex, p, colorI); 
+			myThreads.add(calculFrac);
+			calculFrac.start();
+			S1[j]=calculFrac.TreadBuilder();
+			//S=calculFrac.TreadBuilder();
 		}
+		
+		boolean stay = false;
+		
+		do{
+			stay = false;
+			for(Thread t : myThreads ){
+				if(t.getState()!= Thread.State.TERMINATED){
+					stay=true;
+				}
+			}
+		}while(stay);
+		
+		for(int i=0;i<threadsnumber;i++)
+			S.AddBuilder(S1[i],i);
 		
 		return S.build(); //on build l IFSAccumulateur;
 	}
 	
+	private class calculator extends Thread{
+		
+		Point p = Point.ORIGIN;
+		double colorIn;
+		final int m;	//nombre d intération = H(en nombre de case) x W (en nombre de case) x Density
+		FlameAccumulator.Builder R; 
+		double[] TrfIndex= new double[flameList.size()];
+		
+		public calculator(int height, int width, int density, Rectangle frame, double[] TrfIndex, Point p, double colorI) {
+			
+			m = height*width*density;
+			R=new FlameAccumulator.Builder(frame,width,height);
+			this.TrfIndex=TrfIndex;
+			this.p=p;
+			this.colorIn=colorI;
+		}
+
+		@Override
+		public void run(){
+
+    	  for(int w=0;  w< m/threadsnumber ;w++){
+    		  
+	    		  int i=randomno.nextInt(flameList.size()); //entier aléatoire en 0 et n-1 // dernière valeure non-incluse
+				  p= flameList.get(i).transformPoint(p);
+				  colorIn = (1.0/2.0)*(colorIn + TrfIndex[i]);
+				  
+				  //System.out.println("Bloque là?");
+				  
+				  R.hit(p,colorIn); //on remplie la case touchée
+			  
+    	  	  }	     	  
+    	  colorI=colorIn;
+	    }
+		
+		public FlameAccumulator.Builder TreadBuilder(){
+			
+			return R;
+		}	         		       		     
+	}
+		
 	
-	static class Builder
+	
+	
+	
+	static public class Builder
 	{
-		Flame flame=null;
-		Builder(Flame flame)
+		private ArrayList<FlameTransformation.Builder> transformations;
+		
+		public Builder(Flame flame)
 		{
-			this.flame=flame;
+			this.transformations= new ArrayList<FlameTransformation.Builder>();
+			
+			for(FlameTransformation transformation: flame.flameList){
+				transformations.add(new FlameTransformation.Builder(transformation));
+			}
+			
 		}
 		/**
 		 * retourne le nombre FlameTransformation dans la liste
 		 * @return nombre de FlameTransformation dans la liste
 		 */
-		int transformationCount()
+		public int transformationCount()
 		{
-			return flame.flameList.size();
+			return transformations.size();
 		}
 		
 		/**
 		 * ajoute une Flametransformation à la liste.
 		 * @param transformation nouvelle FlameTransformation.
 		 */
-		void addTransformation(FlameTransformation transformation)
+		public void addTransformation(FlameTransformation transformation)
 		{
-			flame.flameList.add(transformation);
+			transformations.add(new FlameTransformation.Builder(transformation));
 		}
 		
 		/**
@@ -126,15 +209,15 @@ public class Flame
 		 * @param index index de la flametransformation
 		 * @return affinetransformation liéé a la Flametransformation.
 		 */
-		AffineTransformation affineTransformation(int index)
+		public AffineTransformation affineTransformation(int index)
 		{
-			if(index<0 || index>1)
+			if(index<0 || index >transformations.size())
 			{
 				throw new IllegalArgumentException(" index invalide pour la méthode Flame.Builder.affineTrasformation");
 			}
 			else
 			{
-				return new FlameTransformation.Builder(flame.flameList.get(index)).Affineget();
+				return transformations.get(index).Affineget();
 				
 			}
 		}
@@ -143,34 +226,32 @@ public class Flame
 		 * @param index index de la Flametransformation dans sa liste.
 		 * @param newTransformation nouvelle transformation affine! (qui remplacera celle de l index.)
 		 */
-		void setAffineTransformation(int index, AffineTransformation newTransformation)
+		public void setAffineTransformation(int index, AffineTransformation newTransformation)
 		{
-			if(index<0 || index>1)
+			if(index<0 || index>transformations.size())
 			{
 				throw new IllegalArgumentException(" index invalide pour la méthode Flame.Builder.setAffineTransformation");
 			}
 			else
 			{
-				FlameTransformation.Builder g= new FlameTransformation.Builder(flame.flameList.get(index));
-				g.affineIs(newTransformation);
-				
+				transformations.get(index).affineIs(newTransformation);
 			}
 		}
 		/**
 		 * retourne le poids de la variation donnée de la flameTrasformation a l'index donné
 		 * @param index de la Flametransformation	
-		 * @param variation la variation donnée (y en a 6)
+		 * @param variationIndex index de la variation donnée (y en a 6)
 		 * @return le poid de la variation
 		 */
-		double variationWeight(int index, Variation variation)
+		public double[] variationWeight(int index,Variation variation)
 		{
-			if(index<0 || index>1)
+			if(index<0 || index>transformations.size())
 			{
 				throw new IllegalArgumentException(" index invalide pour la méthode Flame.Builder.variationWeight");
 			}
 			else
 			{
-				return new FlameTransformation.Builder(flame.flameList.get(index)).getVarWeight(index); // à vérifier!
+				return transformations.get(index).getVarWeight(); 
 			}
 		}
 		/**
@@ -179,7 +260,7 @@ public class Flame
 		 * @param variation donnée (y en a 6)
 		 * @param newWeight nouveau poids de la variation
 		 */
-		void setVariationWeight(int index, Variation variation, double newWeight)
+		public void setVariationWeight(int index, Variation variation, double newWeight)
 		{
 			if(index<0 || index>1)
 			{
@@ -187,27 +268,31 @@ public class Flame
 			}
 			else
 			{
-				int i=Variation.ALL_VARIATIONS.indexOf(variation);
-					
-				FlameTransformation.Builder g= new FlameTransformation.Builder(flame.flameList.get(index));
-				g.setVarWeight(newWeight, i);
+				transformations.get(index).setVarWeight(variation, newWeight); 
 			}
 		}
 		/**
 		 * supprime la FlameTRansformation a index donné
 		 * @param index de la FlameTransformation
 		 */
-		void removeTransformation(int index)
+		
+		public void removeTransformation(int index)
 		{
-			flame.flameList.remove(index);
+			transformations.remove(index);
 		}
 		/**
 		 * construit et retourne la fractale flame
 		 * @return la fractale flame.
 		 */
-		Flame build()
+		public Flame build()
 		{
-			return new Flame(flame.flameList);
+			List<FlameTransformation> list=new ArrayList<FlameTransformation>();
+			
+			for(int i=0; i<transformations.size(); i++){
+				list.add(transformations.get(i).build());
+			}
+			
+			return new Flame(list);
 		}
 	}
 }

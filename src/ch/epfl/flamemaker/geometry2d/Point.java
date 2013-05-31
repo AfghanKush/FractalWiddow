@@ -21,6 +21,10 @@ public double y(){
 	return y;
 }
 
+public Point swagAddPoint(Point P){
+	return new Point(x+P.x(), y+P.y());
+}
+
 public double r(){
 	return Math.sqrt(x*x+y*y);
 }
